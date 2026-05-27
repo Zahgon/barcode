@@ -16,44 +16,39 @@ type datamatrixCode struct {
 }
 
 func newDataMatrixCodeWithColor(size *dmCodeSize, color barcode.ColorScheme) *datamatrixCode {
-	return &datamatrixCode{utils.NewBitList(size.Rows * size.Columns), size, "", color}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func newDataMatrixCode(size *dmCodeSize) *datamatrixCode {
-	return &datamatrixCode{utils.NewBitList(size.Rows * size.Columns), size, "", barcode.ColorScheme16}
-}
+func newDataMatrixCode(size *dmCodeSize) *datamatrixCode { _ = "STUB: not implemented"; return nil }
 
-func (c *datamatrixCode) Content() string {
-	return c.content
-}
+func (c *datamatrixCode) Content() string { _ = "STUB: not implemented"; return "" }
 
 func (c *datamatrixCode) Metadata() barcode.Metadata {
-	return barcode.Metadata{CodeKind: barcode.TypeDataMatrix, Dimensions: 2}
+	_ = "STUB: not implemented"
+	return *new(barcode.Metadata)
 }
 
 func (c *datamatrixCode) ColorModel() color.Model {
-	return c.color.Model
+	_ = "STUB: not implemented"
+	return *new(color.Model)
 }
 
 func (c *datamatrixCode) ColorScheme() barcode.ColorScheme {
-	return c.color
+	_ = "STUB: not implemented"
+	return *new(barcode.ColorScheme)
 }
 
 func (c *datamatrixCode) Bounds() image.Rectangle {
-	return image.Rect(0, 0, c.Columns, c.Rows)
+	_ = "STUB: not implemented"
+	return *new(image.Rectangle)
 }
 
 func (c *datamatrixCode) At(x, y int) color.Color {
-	if c.get(x, y) {
-		return c.color.Foreground
-	}
-	return c.color.Background
+	_ = "STUB: not implemented"
+	return *new(color.Color)
 }
 
-func (c *datamatrixCode) get(x, y int) bool {
-	return c.GetBit(x*c.Rows + y)
-}
+func (c *datamatrixCode) get(x, y int) bool { _ = "STUB: not implemented"; return false }
 
-func (c *datamatrixCode) set(x, y int, value bool) {
-	c.SetBit(x*c.Rows+y, value)
-}
+func (c *datamatrixCode) set(x, y int, value bool) { _ = "STUB: not implemented"; return }

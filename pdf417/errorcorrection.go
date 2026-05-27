@@ -2,9 +2,7 @@ package pdf417
 
 type securitylevel byte
 
-func (level securitylevel) ErrorCorrectionWordCount() int {
-	return 1 << (uint(level) + 1)
-}
+func (level securitylevel) ErrorCorrectionWordCount() int { _ = "STUB: not implemented"; return 0 }
 
 var correctionFactors = [][]int{
 	// Level 0
@@ -118,34 +116,11 @@ var correctionFactors = [][]int{
 }
 
 func (level securitylevel) Compute(data []int) []int {
+	_ = "STUB: not implemented"
 	// Correction factors for the given level
-	factors := correctionFactors[int(level)]
-
-	// Number of correction code words
-	count := level.ErrorCorrectionWordCount()
-
-	// Correction code words array, prepopulated with zeros
-	ecWords := make([]int, count)
-
-	for _, value := range data {
-		temp := (value + ecWords[0]) % 929
-
-		for i := count - 1; i >= 0; i-- {
-			add := 0
-
-			if i > 0 {
-				add = ecWords[count-i]
-			}
-
-			ecWords[count-1-i] = (add + 929 - (temp*factors[i])%929) % 929
-		}
-	}
-
-	for key, word := range ecWords {
-		if word > 0 {
-			ecWords[key] = 929 - word
-		}
-	}
-
-	return ecWords
+	return nil
 }
+
+// Number of correction code words
+
+// Correction code words array, prepopulated with zeros

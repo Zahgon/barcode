@@ -1,7 +1,5 @@
 package qr
 
-import "math"
-
 // ErrorCorrectionLevel indicates the amount of "backup data" stored in the QR code
 type ErrorCorrectionLevel byte
 
@@ -16,19 +14,7 @@ const (
 	H
 )
 
-func (ecl ErrorCorrectionLevel) String() string {
-	switch ecl {
-	case L:
-		return "L"
-	case M:
-		return "M"
-	case Q:
-		return "Q"
-	case H:
-		return "H"
-	}
-	return "unknown"
-}
+func (ecl ErrorCorrectionLevel) String() string { _ = "STUB: not implemented"; return "" }
 
 type encodingMode byte
 
@@ -212,99 +198,16 @@ var versionInfos = []*versionInfo{
 	&versionInfo{40, H, 30, 20, 15, 61, 16},
 }
 
-func (vi *versionInfo) totalDataBytes() int {
-	g1Data := int(vi.NumberOfBlocksInGroup1) * int(vi.DataCodeWordsPerBlockInGroup1)
-	g2Data := int(vi.NumberOfBlocksInGroup2) * int(vi.DataCodeWordsPerBlockInGroup2)
-	return (g1Data + g2Data)
-}
+func (vi *versionInfo) totalDataBytes() int { _ = "STUB: not implemented"; return 0 }
 
-func (vi *versionInfo) charCountBits(m encodingMode) byte {
-	switch m {
-	case numericMode:
-		if vi.Version < 10 {
-			return 10
-		} else if vi.Version < 27 {
-			return 12
-		}
-		return 14
+func (vi *versionInfo) charCountBits(m encodingMode) byte { _ = "STUB: not implemented"; return 0 }
 
-	case alphaNumericMode:
-		if vi.Version < 10 {
-			return 9
-		} else if vi.Version < 27 {
-			return 11
-		}
-		return 13
+func (vi *versionInfo) modulWidth() int { _ = "STUB: not implemented"; return 0 }
 
-	case byteMode:
-		if vi.Version < 10 {
-			return 8
-		}
-		return 16
-
-	case kanjiMode:
-		if vi.Version < 10 {
-			return 8
-		} else if vi.Version < 27 {
-			return 10
-		}
-		return 12
-	default:
-		return 0
-	}
-}
-
-func (vi *versionInfo) modulWidth() int {
-	return ((int(vi.Version) - 1) * 4) + 21
-}
-
-func (vi *versionInfo) alignmentPatternPlacements() []int {
-	if vi.Version == 1 {
-		return make([]int, 0)
-	}
-
-	first := 6
-	last := vi.modulWidth() - 7
-	space := float64(last - first)
-	count := int(math.Ceil(space/28)) + 1
-
-	result := make([]int, count)
-	result[0] = first
-	result[len(result)-1] = last
-	if count > 2 {
-		step := int(math.Ceil(float64(last-first) / float64(count-1)))
-		if step%2 == 1 {
-			frac := float64(last-first) / float64(count-1)
-			_, x := math.Modf(frac)
-			if x >= 0.5 {
-				frac = math.Ceil(frac)
-			} else {
-				frac = math.Floor(frac)
-			}
-
-			if int(frac)%2 == 0 {
-				step--
-			} else {
-				step++
-			}
-		}
-
-		for i := 1; i <= count-2; i++ {
-			result[i] = last - (step * (count - 1 - i))
-		}
-	}
-
-	return result
-}
+func (vi *versionInfo) alignmentPatternPlacements() []int { _ = "STUB: not implemented"; return nil }
 
 func findSmallestVersionInfo(ecl ErrorCorrectionLevel, mode encodingMode, dataBits int) *versionInfo {
-	dataBits = dataBits + 4 // mode indicator
-	for _, vi := range versionInfos {
-		if vi.Level == ecl {
-			if (vi.totalDataBytes() * 8) >= (dataBits + int(vi.charCountBits(mode))) {
-				return vi
-			}
-		}
-	}
+	_ = "STUB: not implemented"
 	return nil
+	// mode indicator
 }

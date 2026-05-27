@@ -2,11 +2,7 @@
 package code93
 
 import (
-	"errors"
-	"strings"
-
 	"github.com/boombuler/barcode"
-	"github.com/boombuler/barcode/utils"
 )
 
 type encodeInfo struct {
@@ -63,77 +59,20 @@ var extendedTable = []string{
 	"\u00f4X", "\u00f4Y", "\u00f4Z", "\u00f2P", "\u00f2Q", "\u00f2R", "\u00f2S", "\u00f2T",
 }
 
-func prepare(content string) (string, error) {
-	result := ""
-	for _, r := range content {
-		if r > 127 {
-			return "", errors.New("only ASCII strings can be encoded")
-		}
-		result += extendedTable[int(r)]
-	}
-	return result, nil
-}
+func prepare(content string) (string, error) { _ = "STUB: not implemented"; return "", nil }
 
 // Encode returns a code93 barcode for the given content and color scheme
 // if includeChecksum is set to true, two checksum characters are calculated and added to the content
 func EncodeWithColor(content string, includeChecksum bool, fullASCIIMode bool, color barcode.ColorScheme) (barcode.Barcode, error) {
-	if fullASCIIMode {
-		var err error
-		content, err = prepare(content)
-		if err != nil {
-			return nil, err
-		}
-	} else if strings.ContainsRune(content, '*') {
-		return nil, errors.New("invalid data! content may not contain '*'")
-	}
-
-	data := content + string(getChecksum(content, 20))
-	if includeChecksum {
-		data += string(getChecksum(data, 15))
-	}
-
-	data = "*" + data + "*"
-	result := new(utils.BitList)
-
-	for _, r := range data {
-		info, ok := encodeTable[r]
-		if !ok {
-			return nil, errors.New("invalid data")
-		}
-		result.AddBits(info.data, 9)
-	}
-	result.AddBit(true)
-
-	return utils.New1DCodeWithColor(barcode.TypeCode93, content, result, color), nil
+	_ = "STUB: not implemented"
+	return *new(barcode.Barcode), nil
 }
 
 // Encode returns a code93 barcode for the given content
 // if includeChecksum is set to true, two checksum characters are calculated and added to the content
 func Encode(content string, includeChecksum bool, fullASCIIMode bool) (barcode.Barcode, error) {
-	return EncodeWithColor(content, includeChecksum, fullASCIIMode, barcode.ColorScheme16)
+	_ = "STUB: not implemented"
+	return *new(barcode.Barcode), nil
 }
 
-func getChecksum(content string, maxWeight int) rune {
-	weight := 1
-	total := 0
-
-	data := []rune(content)
-	for i := len(data) - 1; i >= 0; i-- {
-		r := data[i]
-		info, ok := encodeTable[r]
-		if !ok {
-			return ' '
-		}
-		total += info.value * weight
-		if weight++; weight > maxWeight {
-			weight = 1
-		}
-	}
-	total = total % 47
-	for r, info := range encodeTable {
-		if info.value == total {
-			return r
-		}
-	}
-	return ' '
-}
+func getChecksum(content string, maxWeight int) rune { _ = "STUB: not implemented"; return 0 }

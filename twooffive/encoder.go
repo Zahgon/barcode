@@ -2,11 +2,7 @@
 package twooffive
 
 import (
-	"errors"
-	"fmt"
-
 	"github.com/boombuler/barcode"
-	"github.com/boombuler/barcode/utils"
 )
 
 const patternWidth = 5
@@ -54,90 +50,16 @@ var (
 )
 
 // AddCheckSum calculates the correct check-digit and appends it to the given content.
-func AddCheckSum(content string) (string, error) {
-	if content == "" {
-		return "", errors.New("content is empty")
-	}
-
-	even := len(content)%2 == 1
-	sum := 0
-	for _, r := range content {
-		if _, ok := encodingTable[r]; ok {
-			value := utils.RuneToInt(r)
-			if even {
-				sum += value * 3
-			} else {
-				sum += value
-			}
-			even = !even
-		} else {
-			return "", fmt.Errorf("can not encode %s", content)
-		}
-	}
-
-	return content + string(utils.IntToRune(sum%10)), nil
-}
+func AddCheckSum(content string) (string, error) { _ = "STUB: not implemented"; return "", nil }
 
 // Encode creates a codabar barcode for the given content and color scheme
 func EncodeWithColor(content string, interleaved bool, color barcode.ColorScheme) (barcode.Barcode, error) {
-	if content == "" {
-		return nil, errors.New("content is empty")
-	}
-
-	if interleaved && len(content)%2 == 1 {
-		return nil, errors.New("can only encode even number of digits in interleaved mode")
-	}
-
-	mode := modes[interleaved]
-	resBits := new(utils.BitList)
-	resBits.AddBit(mode.start...)
-
-	var lastRune *rune
-	for _, r := range content {
-		var a, b pattern
-		if interleaved {
-			if lastRune == nil {
-				lastRune = new(rune)
-				*lastRune = r
-				continue
-			} else {
-				var o1, o2 bool
-				a, o1 = encodingTable[*lastRune]
-				b, o2 = encodingTable[r]
-				if !o1 || !o2 {
-					return nil, fmt.Errorf("can not encode %q", content)
-				}
-				lastRune = nil
-			}
-		} else {
-			var ok bool
-			a, ok = encodingTable[r]
-			if !ok {
-				return nil, fmt.Errorf("can not encode %q", content)
-			}
-			b = nonInterleavedSpace
-		}
-
-		for i := 0; i < patternWidth; i++ {
-			for x := 0; x < mode.widths[a[i]]; x++ {
-				resBits.AddBit(true)
-			}
-			for x := 0; x < mode.widths[b[i]]; x++ {
-				resBits.AddBit(false)
-			}
-		}
-	}
-
-	resBits.AddBit(mode.end...)
-
-	if interleaved {
-		return utils.New1DCodeWithColor(barcode.Type2of5Interleaved, content, resBits, color), nil
-	} else {
-		return utils.New1DCodeWithColor(barcode.Type2of5, content, resBits, color), nil
-	}
+	_ = "STUB: not implemented"
+	return *new(barcode.Barcode), nil
 }
 
 // Encode creates a codabar barcode for the given content
 func Encode(content string, interleaved bool) (barcode.Barcode, error) {
-	return EncodeWithColor(content, interleaved, barcode.ColorScheme16)
+	_ = "STUB: not implemented"
+	return *new(barcode.Barcode), nil
 }

@@ -9,41 +9,21 @@ type dmCodeSize struct {
 	BlockCount            int
 }
 
-func (s *dmCodeSize) RegionRows() int {
-	return (s.Rows - (s.RegionCountVertical * 2)) / s.RegionCountVertical
-}
+func (s *dmCodeSize) RegionRows() int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) RegionColumns() int {
-	return (s.Columns - (s.RegionCountHorizontal * 2)) / s.RegionCountHorizontal
-}
+func (s *dmCodeSize) RegionColumns() int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) MatrixRows() int {
-	return s.RegionRows() * s.RegionCountVertical
-}
+func (s *dmCodeSize) MatrixRows() int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) MatrixColumns() int {
-	return s.RegionColumns() * s.RegionCountHorizontal
-}
+func (s *dmCodeSize) MatrixColumns() int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) DataCodewords() int {
-	return ((s.MatrixColumns() * s.MatrixRows()) / 8) - s.ECCCount
-}
+func (s *dmCodeSize) DataCodewords() int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) DataCodewordsForBlock(idx int) int {
-	if s.Rows == 144 && s.Columns == 144 {
-		// Special Case...
-		if idx < 8 {
-			return 156
-		} else {
-			return 155
-		}
-	}
-	return s.DataCodewords() / s.BlockCount
-}
+func (s *dmCodeSize) DataCodewordsForBlock(idx int) int { _ = "STUB: not implemented"; return 0 }
 
-func (s *dmCodeSize) ErrorCorrectionCodewordsPerBlock() int {
-	return s.ECCCount / s.BlockCount
-}
+// Special Case...
+
+func (s *dmCodeSize) ErrorCorrectionCodewordsPerBlock() int { _ = "STUB: not implemented"; return 0 }
 
 var codeSizes []*dmCodeSize = []*dmCodeSize{
 	&dmCodeSize{10, 10, 1, 1, 5, 1},

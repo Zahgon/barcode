@@ -10,36 +10,17 @@ type errorCorrection struct {
 
 var ec *errorCorrection = newErrorCorrection()
 
-func newErrorCorrection() *errorCorrection {
-	gf := utils.NewGaloisField(301, 256, 1)
-
-	return &errorCorrection{utils.NewReedSolomonEncoder(gf)}
-}
+func newErrorCorrection() *errorCorrection { _ = "STUB: not implemented"; return nil }
 
 func (ec *errorCorrection) calcECC(data []byte, size *dmCodeSize) []byte {
-	dataSize := len(data)
+	_ = "STUB: not implemented"
+	return nil
+
 	// make some space for error correction codes
-	data = append(data, make([]byte, size.ECCCount)...)
-
-	for block := 0; block < size.BlockCount; block++ {
-		dataCnt := size.DataCodewordsForBlock(block)
-
-		buff := make([]int, dataCnt)
-		// copy the data for the current block to buff
-		j := 0
-		for i := block; i < dataSize; i += size.BlockCount {
-			buff[j] = int(data[i])
-			j++
-		}
-		// calc the error correction codes
-		ecc := ec.rs.Encode(buff, size.ErrorCorrectionCodewordsPerBlock())
-		// and append them to the result
-		j = 0
-		for i := block; i < size.ErrorCorrectionCodewordsPerBlock()*size.BlockCount; i += size.BlockCount {
-			data[dataSize+i] = byte(ecc[j])
-			j++
-		}
-	}
-
-	return data
 }
+
+// copy the data for the current block to buff
+
+// calc the error correction codes
+
+// and append them to the result

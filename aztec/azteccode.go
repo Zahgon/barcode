@@ -1,7 +1,6 @@
 package aztec
 
 import (
-	"bytes"
 	"image"
 	"image/color"
 
@@ -17,51 +16,31 @@ type aztecCode struct {
 }
 
 func newAztecCode(size int, color barcode.ColorScheme) *aztecCode {
-	return &aztecCode{utils.NewBitList(size * size), size, nil, barcode.ColorScheme16}
+	_ = "STUB: not implemented"
+	return nil
 }
 
-func (c *aztecCode) Content() string {
-	return string(c.content)
-}
+func (c *aztecCode) Content() string { _ = "STUB: not implemented"; return "" }
 
 func (c *aztecCode) Metadata() barcode.Metadata {
-	return barcode.Metadata{CodeKind: barcode.TypeAztec, Dimensions: 2}
+	_ = "STUB: not implemented"
+	return *new(barcode.Metadata)
 }
 
-func (c *aztecCode) ColorModel() color.Model {
-	return c.color.Model
-}
+func (c *aztecCode) ColorModel() color.Model { _ = "STUB: not implemented"; return *new(color.Model) }
 
 func (c *aztecCode) ColorScheme() barcode.ColorScheme {
-	return c.color
+	_ = "STUB: not implemented"
+	return *new(barcode.ColorScheme)
 }
 
 func (c *aztecCode) Bounds() image.Rectangle {
-	return image.Rect(0, 0, c.size, c.size)
+	_ = "STUB: not implemented"
+	return *new(image.Rectangle)
 }
 
-func (c *aztecCode) At(x, y int) color.Color {
-	if c.GetBit(x*c.size + y) {
-		return c.color.Foreground
-	}
-	return c.color.Background
-}
+func (c *aztecCode) At(x, y int) color.Color { _ = "STUB: not implemented"; return *new(color.Color) }
 
-func (c *aztecCode) set(x, y int) {
-	c.SetBit(x*c.size+y, true)
-}
+func (c *aztecCode) set(x, y int) { _ = "STUB: not implemented"; return }
 
-func (c *aztecCode) string() string {
-	buf := new(bytes.Buffer)
-	for y := 0; y < c.size; y++ {
-		for x := 0; x < c.size; x++ {
-			if c.GetBit(x*c.size + y) {
-				buf.WriteString("X ")
-			} else {
-				buf.WriteString("  ")
-			}
-		}
-		buf.WriteRune('\n')
-	}
-	return buf.String()
-}
+func (c *aztecCode) string() string { _ = "STUB: not implemented"; return "" }

@@ -411,6 +411,4 @@ var codewords = [][]int{
 	},
 }
 
-func getCodeword(tableId int, word int) int {
-	return codewords[tableId][word]
-}
+func getCodeword(tableId int, word int) int { _ = "STUB: not implemented"; return 0 }

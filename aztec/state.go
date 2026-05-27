@@ -1,8 +1,6 @@
 package aztec
 
 import (
-	"fmt"
-
 	"github.com/boombuler/barcode/utils"
 )
 
@@ -139,126 +137,40 @@ func init() {
 	}
 }
 
-func (em encodingMode) BitCount() byte {
-	if em == mode_digit {
-		return 4
-	}
-	return 5
-}
+func (em encodingMode) BitCount() byte { _ = "STUB: not implemented"; return 0 }
 
 // Create a new state representing this state with a latch to a (not
 // necessary different) mode, and then a code.
 func (s *state) latchAndAppend(mode encodingMode, value int) *state {
-	bitCount := s.bitCount
-	tokens := s.tokens
-
-	if mode != s.mode {
-		latch := latchTable[s.mode][mode]
-		tokens = newSimpleToken(tokens, latch&0xFFFF, byte(latch>>16))
-		bitCount += latch >> 16
-	}
-	tokens = newSimpleToken(tokens, value, mode.BitCount())
-	return &state{
-		mode:            mode,
-		tokens:          tokens,
-		bShiftByteCount: 0,
-		bitCount:        bitCount + int(mode.BitCount()),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Create a new state representing this state, with a temporary shift
 // to a different mode to output a single value.
 func (s *state) shiftAndAppend(mode encodingMode, value int) *state {
-	tokens := s.tokens
+	_ = "STUB: not implemented"
 
 	// Shifts exist only to UPPER and PUNCT, both with tokens size 5.
-	tokens = newSimpleToken(tokens, shiftTable[s.mode][mode], s.mode.BitCount())
-	tokens = newSimpleToken(tokens, value, 5)
-
-	return &state{
-		mode:            s.mode,
-		tokens:          tokens,
-		bShiftByteCount: 0,
-		bitCount:        s.bitCount + int(s.mode.BitCount()) + 5,
-	}
+	return nil
 }
 
 // Create a new state representing this state, but an additional character
 // output in Binary Shift mode.
-func (s *state) addBinaryShiftChar(index int) *state {
-	tokens := s.tokens
-	mode := s.mode
-	bitCnt := s.bitCount
-	if s.mode == mode_punct || s.mode == mode_digit {
-		latch := latchTable[s.mode][mode_upper]
-		tokens = newSimpleToken(tokens, latch&0xFFFF, byte(latch>>16))
-		bitCnt += latch >> 16
-		mode = mode_upper
-	}
-	deltaBitCount := 8
-	if s.bShiftByteCount == 0 || s.bShiftByteCount == 31 {
-		deltaBitCount = 18
-	} else if s.bShiftByteCount == 62 {
-		deltaBitCount = 9
-	}
-	result := &state{
-		mode:            mode,
-		tokens:          tokens,
-		bShiftByteCount: s.bShiftByteCount + 1,
-		bitCount:        bitCnt + deltaBitCount,
-	}
-	if result.bShiftByteCount == 2047+31 {
-		// The string is as long as it's allowed to be.  We should end it.
-		result = result.endBinaryShift(index + 1)
-	}
+func (s *state) addBinaryShiftChar(index int) *state { _ = "STUB: not implemented"; return nil }
 
-	return result
-}
+// The string is as long as it's allowed to be.  We should end it.
 
 // Create the state identical to this one, but we are no longer in
 // Binary Shift mode.
-func (s *state) endBinaryShift(index int) *state {
-	if s.bShiftByteCount == 0 {
-		return s
-	}
-	tokens := newShiftToken(s.tokens, index-s.bShiftByteCount, s.bShiftByteCount)
-	return &state{
-		mode:            s.mode,
-		tokens:          tokens,
-		bShiftByteCount: 0,
-		bitCount:        s.bitCount,
-	}
-}
+func (s *state) endBinaryShift(index int) *state { _ = "STUB: not implemented"; return nil }
 
 // Returns true if "this" state is better (or equal) to be in than "other"
 // state under all possible circumstances.
-func (s *state) isBetterThanOrEqualTo(other *state) bool {
-	mySize := s.bitCount + (latchTable[s.mode][other.mode] >> 16)
+func (s *state) isBetterThanOrEqualTo(other *state) bool { _ = "STUB: not implemented"; return false }
 
-	if other.bShiftByteCount > 0 && (s.bShiftByteCount == 0 || s.bShiftByteCount > other.bShiftByteCount) {
-		mySize += 10 // Cost of entering Binary Shift mode.
-	}
-	return mySize <= other.bitCount
-}
+// Cost of entering Binary Shift mode.
 
-func (s *state) toBitList(text []byte) *utils.BitList {
-	tokens := make([]token, 0)
-	se := s.endBinaryShift(len(text))
+func (s *state) toBitList(text []byte) *utils.BitList { _ = "STUB: not implemented"; return nil }
 
-	for t := se.tokens; t != nil; t = t.prev() {
-		tokens = append(tokens, t)
-	}
-	res := new(utils.BitList)
-	for i := len(tokens) - 1; i >= 0; i-- {
-		tokens[i].appendTo(res, text)
-	}
-	return res
-}
-
-func (s *state) String() string {
-	tokens := make([]token, 0)
-	for t := s.tokens; t != nil; t = t.prev() {
-		tokens = append([]token{t}, tokens...)
-	}
-	return fmt.Sprintf("M:%d bits=%d bytes=%d: %v", s.mode, s.bitCount, s.bShiftByteCount, tokens)
-}
+func (s *state) String() string { _ = "STUB: not implemented"; return "" }

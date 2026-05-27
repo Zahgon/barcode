@@ -2,12 +2,7 @@
 package code39
 
 import (
-	"errors"
-	"strconv"
-	"strings"
-
 	"github.com/boombuler/barcode"
-	"github.com/boombuler/barcode/utils"
 )
 
 type encodeInfo struct {
@@ -75,84 +70,20 @@ var extendedTable = map[rune]string{
 	127: `%T`,
 }
 
-func getChecksum(content string) string {
-	sum := 0
-	for _, r := range content {
-		info, ok := encodeTable[r]
-		if !ok || info.value < 0 {
-			return "#"
-		}
+func getChecksum(content string) string { _ = "STUB: not implemented"; return "" }
 
-		sum += info.value
-	}
-
-	sum = sum % 43
-	for r, v := range encodeTable {
-		if v.value == sum {
-			return string(r)
-		}
-	}
-	return "#"
-}
-
-func prepare(content string) (string, error) {
-	result := ""
-	for _, r := range content {
-		if r > 127 {
-			return "", errors.New("only ASCII strings can be encoded")
-		}
-		val, ok := extendedTable[r]
-		if ok {
-			result += val
-		} else {
-			result += string([]rune{r})
-		}
-	}
-	return result, nil
-}
+func prepare(content string) (string, error) { _ = "STUB: not implemented"; return "", nil }
 
 // Encode returns a code39 barcode for the given content and color scheme
 // if includeChecksum is set to true, a checksum character is calculated and added to the content
 func EncodeWithColor(content string, includeChecksum bool, fullASCIIMode bool, color barcode.ColorScheme) (barcode.BarcodeIntCS, error) {
-	if fullASCIIMode {
-		var err error
-		content, err = prepare(content)
-		if err != nil {
-			return nil, err
-		}
-	} else if strings.ContainsRune(content, '*') {
-		return nil, errors.New("invalid data! try full ascii mode")
-	}
-
-	data := "*" + content
-	if includeChecksum {
-		data += getChecksum(content)
-	}
-	data += "*"
-
-	result := new(utils.BitList)
-
-	for i, r := range data {
-		if i != 0 {
-			result.AddBit(false)
-		}
-
-		info, ok := encodeTable[r]
-		if !ok {
-			return nil, errors.New("invalid data! try full ascii mode")
-		}
-		result.AddBit(info.data...)
-	}
-
-	checkSum, err := strconv.ParseInt(getChecksum(content), 10, 64)
-	if err != nil {
-		checkSum = 0
-	}
-	return utils.New1DCodeIntCheckSumWithColor(barcode.TypeCode39, content, result, int(checkSum), color), nil
+	_ = "STUB: not implemented"
+	return *new(barcode.BarcodeIntCS), nil
 }
 
 // Encode returns a code39 barcode for the given content
 // if includeChecksum is set to true, a checksum character is calculated and added to the content
 func Encode(content string, includeChecksum bool, fullASCIIMode bool) (barcode.BarcodeIntCS, error) {
-	return EncodeWithColor(content, includeChecksum, fullASCIIMode, barcode.ColorScheme16)
+	_ = "STUB: not implemented"
+	return *new(barcode.BarcodeIntCS), nil
 }
